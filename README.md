@@ -30,12 +30,10 @@ Installing
 Project Structure:
 ------------------
 
-    
-    Percona TokuBackup open-source hot backup tool for TokuDB engine.
     Here is project path tree:
     
         * backup                        -- Backup main logic goes here.(backup_calculation.py)
-		* general_conf                  -- All-in-one config file and config reader class(generalops.py).
+	* general_conf                  -- All-in-one config file and config reader class(generalops.py).
     	* setup.py                      -- Setuptools Setup file.
     	* tokubackup.py                 -- Commandline Tool provider script.
     	* /etc/tokubackup.conf          -- Main config file will be created from general_conf/tokubackup.conf file
@@ -64,7 +62,7 @@ Sample Output:
       
     # tokubackup --version
     Developed by Shahriyar Rzayev from Percona
-    Link : https://github.com/Percona-QA/percona-qa
+    Link : https://github.com/Percona-Lab/percona-autotokubackup
     Email: shahriyar.rzayev@percona.com
     Based on Percona TokuBackup: https://www.percona.com/doc/percona-server/5.6/tokudb/toku_backup.html
     MySQL-AutoTokuBackup Version 1.0
