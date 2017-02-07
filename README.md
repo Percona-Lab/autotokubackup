@@ -1,9 +1,9 @@
 
-MySQL-AutoTokuBackup
+Percona-AutoTokuBackup
 ====================
 
-MySQL AutoTokuBackup commandline tool written in Python 3.
-You can use this script for automate usage of Percona TokuBackup.
+Percona AutoTokuBackup commandline tool written in Python 3.
+You can use this script to automate usage of Percona TokuBackup.
 
 
 
@@ -22,8 +22,8 @@ Installing
 -----------------
 
     cd /home
-    git clone https://github.com/Percona-QA/percona-qa
-    cd percona-qa/TB_XB_test_scripts/AutoTokuBackup
+    git clone https://github.com/Percona-Lab/percona-autotokubackup.git
+    cd percona-autotokubackup
     python3 setup.py install
     
     
