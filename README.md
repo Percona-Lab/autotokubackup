@@ -3,7 +3,7 @@ Percona-AutoTokuBackup
 ====================
 
 Percona AutoTokuBackup commandline tool written in Python 3.
-You can use this script to automate usage of Percona TokuBackup.
+You can use this script to automate the usage of Percona TokuBackup.
 
 
 
@@ -93,7 +93,7 @@ Sample Output:
 Supplementary Files
 -------------------
 
-The original MySQL configuration file as well as, MySQL Global and Session variable values will be stored in backup directory:
+The original MySQL configuration file as well as the MySQL Global and Session variable values will be stored in backup directory:
 
 
     # ls 2017-01-31_14-15-46/
