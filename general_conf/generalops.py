@@ -21,15 +21,25 @@ class GeneralClass(object):
                 self.mysql_socket = DB['socket']
             self.mysql_host = DB['host']
             self.datadir = DB['datadir']
-            if 'defaults_file' in DB:
-                self.mysql_defaults_file = DB['defaults_file']
+            
 
             ######################################################
 
             BCK = con['Backup']
             self.backupdir = BCK['backupdir']
+            
+            ######################################################
+            self.to_be_copied = []
+            CP = con['Copy']
+            for i in range(1,11):
+                if 'copy_file_{}'.format(i) in CP:
+                    if isfile(CP['copy_file_{}'.format(i)]):
+                        self.to_be_copied.append(CP['copy_file_{}'.format(i)])
+                    else:
+                        print("WARN: specified file can not be copied")
+                    
 
         else:
-            print("Missing config file : /etc/tokubackup.conf")
+            print("CRITICAL: Missing config file : /etc/tokubackup.conf")
             sys.exit(-1)
 

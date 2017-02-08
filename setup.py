@@ -3,11 +3,11 @@ from setuptools import setup
 datafiles = [('/etc', ['general_conf/tokubackup.conf'])]
 
 setup(
-    name='mysql-autotokubackup',
+    name='percona-autotokubackup',
     version='1.0',
     packages=['general_conf', 'backup'],
     py_modules = ['tokubackup'],
-    url='https://github.com/Percona-QA/percona-qa',
+    url='https://github.com/Percona-Lab/percona-autotokubackup',
     license='GPL',
     author='Shahriyar Rzayev',
     author_email='shahriyar.rzayev@percona.com',
