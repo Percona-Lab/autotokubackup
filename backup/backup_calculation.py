@@ -21,8 +21,9 @@ from shutil import copy
 class CheckMySQLEnvironment(GeneralClass):
 
     # Constructor
-    def __init__(self, defaults_file):
-        super().__init__(config=defaults_file)
+    def __init__(self, config):
+        self.conf = config
+        super().__init__(self.conf)
         self.cnx = mysql.connector.connect(user=self.mysql_user,
                                            password=self.mysql_password,
                                            host=self.mysql_host,
@@ -191,13 +192,13 @@ class CheckMySQLEnvironment(GeneralClass):
 
 class BackupProgressEstimate(FileSystemEventHandler):
 
-    def __init__(self, observer):
+    def __init__(self, observer, config):
         """
         Constructor
         :param observer:
         """
         self.observer = observer
-        self.chck = CheckMySQLEnvironment()
+        self.chck = CheckMySQLEnvironment(config)
         self.datadir = self.chck.datadir
         self.backup_dir = self.chck.create_backup_directory()
         self.events_queue = Queue()
@@ -230,7 +231,7 @@ class BackupProgressEstimate(FileSystemEventHandler):
 def main(defaults_file):
     a = CheckMySQLEnvironment(defaults_file)
     observer = Observer()
-    event_handler = BackupProgressEstimate(observer=observer)
+    event_handler = BackupProgressEstimate(observer=observer, config=defaults_file)
     backupdir = event_handler.backup_dir
     print("Backup will be stored in ", backupdir)
     if isdir(backupdir):
@@ -255,8 +256,3 @@ def main(defaults_file):
     print("Completed - OK")
     observer.stop()
     observer.join()
-
-
-
-if __name__ == "__main__":
-    sys.exit(main(defaults_file=conf))

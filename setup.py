@@ -4,7 +4,7 @@ datafiles = [('/etc', ['general_conf/tokubackup.conf'])]
 
 setup(
     name='percona-autotokubackup',
-    version='1.0',
+    version='1.1',
     packages=['general_conf', 'backup'],
     py_modules = ['tokubackup'],
     url='https://github.com/Percona-Lab/percona-autotokubackup',

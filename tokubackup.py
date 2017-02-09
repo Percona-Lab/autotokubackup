@@ -11,7 +11,7 @@ def print_version(ctx, param, value):
     click.echo("Link : https://github.com/Percona-Lab/percona-autotokubackup")
     click.echo("Email: shahriyar.rzayev@percona.com")
     click.echo("Based on Percona TokuBackup: https://www.percona.com/doc/percona-server/5.6/tokudb/toku_backup.html")
-    click.echo('Percona-AutoTokuBackup Version 1.0')
+    click.echo('Percona-AutoTokuBackup Version 1.1')
     ctx.exit()
 
 def check_file_content(file):
@@ -67,7 +67,8 @@ def all_procedure(backup, defaults_file):
     if (not backup) and (not defaults_file):
         print("ERROR: you must give an option, run with --help for available options")
     elif backup:
-        runpy.run_module(backup_calculation.main(defaults_file), run_name='__main__')
+        #runpy.run_module(backup_calculation.main(defaults_file))
+        backup_calculation.main(defaults_file)
 
 
 
