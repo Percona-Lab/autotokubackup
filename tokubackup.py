@@ -2,6 +2,7 @@ import click
 import runpy
 import os
 import re
+from backup import backup_calculation
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
@@ -66,7 +67,7 @@ def all_procedure(backup, defaults_file):
     if (not backup) and (not defaults_file):
         print("ERROR: you must give an option, run with --help for available options")
     elif backup:
-        runpy.run_module(backup.backup_calculation(defaults_file), run_name='__main__')
+        runpy.run_module(backup_calculation.main(defaults_file), run_name='__main__')
 
 
 
