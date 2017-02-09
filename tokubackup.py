@@ -1,6 +1,7 @@
 import click
 import runpy
 import os
+import re
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
