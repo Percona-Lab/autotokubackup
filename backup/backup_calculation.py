@@ -16,13 +16,14 @@ from shutil import copy
 # Developed by Shako (shahriyar.rzayev@percona.com)
 # Usage info:
 # Run script from Python3 and specify backup directory to watch.
-# It will calculate and show which files backed up in real-time.
+# It will show which files backed up in real-time.
 
 class CheckMySQLEnvironment(GeneralClass):
 
     # Constructor
-    def __init__(self):
-        super().__init__()
+    def __init__(self, config):
+        self.conf = config
+        super().__init__(self.conf)
         self.cnx = mysql.connector.connect(user=self.mysql_user,
                                            password=self.mysql_password,
                                            host=self.mysql_host,
@@ -51,20 +52,24 @@ class CheckMySQLEnvironment(GeneralClass):
 
 
 
-    def copy_mysql_config_file(self, defaults_file, backup_dir):
+    def copy_specified_files(self, backup_dir):
         """
-        Copy the passed MySQL configuration file to backup directory.
+        Copy the passed files to backup directory.
         :return: True, if file successfully copied.
         :return: Error, if error occured during copy operation.
         """
         try:
-
-            backup_dir += "/"+"original.my.cnf"
-            copy(defaults_file, backup_dir)
+            copy_dir = join(backup_dir, 'copied_files')
+            makedirs(copy_dir)
+            
+            if len(self.to_be_copied) > 0:
+                for i in self.to_be_copied:
+                    copy(i, copy_dir)
+            
             return True
 
         except Exception as err:
-            print("Something went wrong in copy_mysql_config_file(): {}".format(err))
+            print("Something went wrong in copy_specified_files(): {}".format(err))
 
 
     def create_mysql_variables_info(self, backup_dir):
@@ -137,6 +142,9 @@ class CheckMySQLEnvironment(GeneralClass):
                 print("Could not change owner of backup directory!")
         except Exception as err:
             print("Something went wrong in create_backup_directory(): {}".format(err))
+            
+    
+        
 
 
     def run_backup(self, backup_dir):
@@ -178,25 +186,19 @@ class CheckMySQLEnvironment(GeneralClass):
 
         except Exception as err:
             print("Something went wrong in run_backup(): {}".format(err))
-
-
-
-
-
-
-
+            
 
 
 
 class BackupProgressEstimate(FileSystemEventHandler):
 
-    def __init__(self, observer):
+    def __init__(self, observer, config):
         """
         Constructor
         :param observer:
         """
         self.observer = observer
-        self.chck = CheckMySQLEnvironment()
+        self.chck = CheckMySQLEnvironment(config)
         self.datadir = self.chck.datadir
         self.backup_dir = self.chck.create_backup_directory()
         self.events_queue = Queue()
@@ -226,19 +228,17 @@ class BackupProgressEstimate(FileSystemEventHandler):
 
 
 
-def main():
-    a = CheckMySQLEnvironment()
+def main(defaults_file):
+    a = CheckMySQLEnvironment(defaults_file)
     observer = Observer()
-    event_handler = BackupProgressEstimate(observer=observer)
+    event_handler = BackupProgressEstimate(observer=observer, config=defaults_file)
     backupdir = event_handler.backup_dir
     print("Backup will be stored in ", backupdir)
     if isdir(backupdir):
+        
         a.run_backup(backup_dir=backupdir)
         a.create_mysql_variables_info(backup_dir=backupdir)
-        if hasattr(a, 'mysql_defaults_file') and isfile(a.mysql_defaults_file):
-            a.copy_mysql_config_file(a.mysql_defaults_file, backup_dir=backupdir)
-        else:
-            print("The original MySQL config file is missing check if it is specified and exists!")
+        a.copy_specified_files(backup_dir=backupdir) 
 
     else:
         print("Specified backup directory does not exist! Check /etc/tokubackup.conf")
@@ -256,8 +256,3 @@ def main():
     print("Completed - OK")
     observer.stop()
     observer.join()
-
-
-
-if __name__ == "__main__":
-    sys.exit(main())

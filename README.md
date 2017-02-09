@@ -54,9 +54,10 @@ Sample Output:
     Usage: tokubackup [OPTIONS]
 
     Options:
-    --backup   Take full backup using TokuBackup.
-    --version  Version information.
-    --help     Show this message and exit.
+    --backup              Take full backup using TokuBackup.
+    --version             Version information.
+    --defaults_file TEXT  Read options from the given file
+    --help                Show this message and exit.
 
       
       
@@ -65,13 +66,13 @@ Sample Output:
     Link : https://github.com/Percona-Lab/percona-autotokubackup
     Email: shahriyar.rzayev@percona.com
     Based on Percona TokuBackup: https://www.percona.com/doc/percona-server/5.6/tokudb/toku_backup.html
-    MySQL-AutoTokuBackup Version 1.0
+    MySQL-AutoTokuBackup Version 1.1
 
     
     
-    # tokubackup --backup
-    Backup will be stored in  /var/lib/tokubackupdir/2017-01-31_14-15-46
-    Running backup command => /home/sh/percona-server/5.7.16/bin/mysql -uroot --password=msandbox --host=localhost --socket=/tmp/mysql_sandbox5716.sock -e set tokudb_backup_dir='/var/lib/tokubackupdir/2017-01-31_14-15-46'
+    # tokubackup --backup --defaults_file=/etc/tokubackup_node2.conf 
+    Backup will be stored in  /var/lib/tokubackupdir/2017-02-09_20-25-40
+    Running backup command => /home/sh/percona-server/5.7.17/bin/mysql -uroot --password=msandbox --host=localhost --socket=/tmp/mysql_sandbox20194.sock -e set tokudb_backup_dir='/var/lib/tokubackupdir/2017-02-09_20-25-40'
     mysql: [Warning] Using a password on the command line interface can be insecure.
     Created file in backup directory -> /var/lib/tokubackupdir/2017-01-31_14-15-46/mysql_data_dir/__tokudb_lock_dont_delete_me_data
     Created file in backup directory -> /var/lib/tokubackupdir/2017-01-31_14-15-46/mysql_data_dir/__tokudb_lock_dont_delete_me_logs
@@ -95,9 +96,14 @@ Supplementary Files
 
 The original MySQL configuration file as well as the MySQL Global and Session variable values will be stored in backup directory:
 
-
-    # ls 2017-01-31_14-15-46/
-    global_variables  mysql_data_dir  original.my.cnf  session_variables
+    # ls -l 2017-02-09_20-25-40/
+    
+      copied_files            - Directory for copied files.
+      global_variables        - File for MySQL global variables. 
+      mysql_data_dir          - Directory for copied MySQL datadir.
+      session_variables       - File for MySQL session variables. 
+      tokubackup_binlog_info  - File for storing binary log position.
+      tokubackup_slave_info   - File for storing slave info.
 
 
 
