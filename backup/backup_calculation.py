@@ -18,6 +18,7 @@ from shutil import copy
 # Run script from Python3 and specify backup directory to watch.
 # It will show which files backed up in real-time.
 
+
 class CheckMySQLEnvironment(GeneralClass):
 
     # Constructor
@@ -35,7 +36,6 @@ class CheckMySQLEnvironment(GeneralClass):
         self.cursor.close()
         self.cnx.close()
 
-
     def check_mysql_version(self):
         """
         Check for MySQL version
@@ -49,9 +49,6 @@ class CheckMySQLEnvironment(GeneralClass):
         except mysql.connector.Error as err:
             print("Something went wrong in check_mysql_version(): {}".format(err))
 
-
-
-
     def copy_specified_files(self, backup_dir):
         """
         Copy the passed files to backup directory.
@@ -61,16 +58,15 @@ class CheckMySQLEnvironment(GeneralClass):
         try:
             copy_dir = join(backup_dir, 'copied_files')
             makedirs(copy_dir)
-            
+
             if len(self.to_be_copied) > 0:
                 for i in self.to_be_copied:
                     copy(i, copy_dir)
-            
+
             return True
 
         except Exception as err:
             print("Something went wrong in copy_specified_files(): {}".format(err))
-
 
     def create_mysql_variables_info(self, backup_dir):
         """
@@ -80,8 +76,7 @@ class CheckMySQLEnvironment(GeneralClass):
         cursor = self.cursor
 
         global_variables = join(backup_dir, "global_variables")
-        session_variables = join(backup_dir,"session_variables")
-
+        session_variables = join(backup_dir, "session_variables")
 
         select_global_56 = "select variable_name, variable_value from information_schema.global_variables"
         select_session_56 = "select variable_name, variable_value from information_schema.session_variables"
@@ -118,18 +113,19 @@ class CheckMySQLEnvironment(GeneralClass):
                         f.write(str)
 
         except mysql.connector.Error as err:
-            print("Something went wrong in create_mysql_variables_info(): {}".format(err))
+            print(
+                "Something went wrong in create_mysql_variables_info(): {}".format(err))
         except Exception as err:
-            print("Something went wrong in create_mysql_variables_info(): {}".format(err))
-
-
+            print(
+                "Something went wrong in create_mysql_variables_info(): {}".format(err))
 
     def create_backup_directory(self):
         """
         Creating timestamped backup directory.
         :return: Newly created backup directory or Error.
         """
-        new_backup_dir = join(self.backupdir, datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
+        new_backup_dir = join(self.backupdir,
+                              datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
         try:
             # Creating backup directory
             makedirs(new_backup_dir)
@@ -142,10 +138,6 @@ class CheckMySQLEnvironment(GeneralClass):
                 print("Could not change owner of backup directory!")
         except Exception as err:
             print("Something went wrong in create_backup_directory(): {}".format(err))
-            
-    
-        
-
 
     def run_backup(self, backup_dir):
         """
@@ -153,41 +145,46 @@ class CheckMySQLEnvironment(GeneralClass):
         :param backup_dir:
         """
 
-
         backup_command_connection = '{} -u{} --password={} --host={}'
         backup_command_execute = ' -e "set tokudb_backup_dir=\'{}\'"'
-
 
         try:
 
             if hasattr(self, 'mysql_socket'):
                 backup_command_connection += ' --socket={}'
                 backup_command_connection += backup_command_execute
-                new_backup_command = shlex.split(backup_command_connection.format(self.mysql,
-                                                                       self.mysql_user,
-                                                                       self.mysql_password,
-                                                                       self.mysql_host,
-                                                                       self.mysql_socket,
-                                                                       backup_dir))
+                new_backup_command = shlex.split(
+                    backup_command_connection.format(
+                        self.mysql,
+                        self.mysql_user,
+                        self.mysql_password,
+                        self.mysql_host,
+                        self.mysql_socket,
+                        backup_dir))
             else:
                 backup_command_connection += ' --port={}'
                 backup_command_connection += backup_command_execute
-                new_backup_command = shlex.split(backup_command_connection.format(self.mysql,
-                                                                   self.mysql_user,
-                                                                   self.mysql_password,
-                                                                   self.mysql_host,
-                                                                   self.mysql_port,
-                                                                   backup_dir))
+                new_backup_command = shlex.split(
+                    backup_command_connection.format(
+                        self.mysql,
+                        self.mysql_user,
+                        self.mysql_password,
+                        self.mysql_host,
+                        self.mysql_port,
+                        backup_dir))
             # Do not return anything from subprocess
-            print("Running backup command => %s" % (' '.join(new_backup_command)))
+            print(
+                "Running backup command => %s" %
+                (' '.join(new_backup_command)))
 
-            process = subprocess.Popen(new_backup_command, stdin=None, stdout=None, stderr=None)
-
+            process = subprocess.Popen(
+                new_backup_command,
+                stdin=None,
+                stdout=None,
+                stderr=None)
 
         except Exception as err:
             print("Something went wrong in run_backup(): {}".format(err))
-            
-
 
 
 class BackupProgressEstimate(FileSystemEventHandler):
@@ -202,7 +199,6 @@ class BackupProgressEstimate(FileSystemEventHandler):
         self.datadir = self.chck.datadir
         self.backup_dir = self.chck.create_backup_directory()
         self.events_queue = Queue()
-
 
     def on_created(self, event):
         """
@@ -227,18 +223,18 @@ class BackupProgressEstimate(FileSystemEventHandler):
             return False
 
 
-
 def main(defaults_file):
     a = CheckMySQLEnvironment(defaults_file)
     observer = Observer()
-    event_handler = BackupProgressEstimate(observer=observer, config=defaults_file)
+    event_handler = BackupProgressEstimate(
+        observer=observer, config=defaults_file)
     backupdir = event_handler.backup_dir
     print("Backup will be stored in ", backupdir)
     if isdir(backupdir):
-        
+
         a.run_backup(backup_dir=backupdir)
         a.create_mysql_variables_info(backup_dir=backupdir)
-        a.copy_specified_files(backup_dir=backupdir) 
+        a.copy_specified_files(backup_dir=backupdir)
 
     else:
         print("Specified backup directory does not exist! Check /etc/tokubackup.conf")

@@ -6,7 +6,7 @@ setup(
     name='percona-autotokubackup',
     version='1.1',
     packages=['general_conf', 'backup'],
-    py_modules = ['tokubackup'],
+    py_modules=['tokubackup'],
     url='https://github.com/Percona-Lab/percona-autotokubackup',
     license='GPL',
     author='Shahriyar Rzayev',
@@ -21,5 +21,5 @@ setup(
         [console_scripts]
         tokubackup=tokubackup:all_procedure
     ''',
-    data_files = datafiles,
+    data_files=datafiles,
 )
