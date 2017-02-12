@@ -8,6 +8,7 @@ setup(
     packages=['general_conf', 'backup'],
     py_modules=['tokubackup'],
     url='https://github.com/Percona-Lab/percona-autotokubackup',
+    download_url='https://github.com/Percona-Lab/percona-autotokubackup/archive/v1.1.tar.gz',
     license='GPL',
     author='Shahriyar Rzayev',
     author_email='shahriyar.rzayev@percona.com',
