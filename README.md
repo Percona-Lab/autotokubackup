@@ -4,27 +4,33 @@ Percona-AutoTokuBackup
 
 Percona AutoTokuBackup commandline tool written in Python 3.
 You can use this script to automate the usage of Percona TokuBackup.
+Also you can optionally specify which files to copy during backup process.
 
 
 
 Requirements:
 -------------
 
-    * Percona Server with enabled TokuBackup plugin
+    * Percona Server with enabled TokuDB engine & TokuBackup plugin
     * Python 3 (tested version 3.5.3)
-    * Official mysql-connector-python (>= 2.0.2 )
-    * Python Click package (>= 3.3)
-    * watchdog>=0.8.3
-    
 
 
 Installing
 -----------------
 
+    From source:
+    
     cd /home
     git clone https://github.com/Percona-Lab/percona-autotokubackup.git
     cd percona-autotokubackup
     python3 setup.py install
+    
+    Via pip3:
+    
+    pip3 install percona-autotokubackup
+    
+    > Python package dependencies will be installed automatically.
+    
     
     
 Project Structure:
@@ -39,16 +45,51 @@ Project Structure:
     	* /etc/tokubackup.conf          -- Main config file will be created from general_conf/tokubackup.conf file
     	
 
+Configuration file:
+-------------------
+
+	[MySQL]
+	mysql=/usr/bin/mysql
+	user=root
+	password=12345
+	port=3306
+	socket=/var/run/mysqld/mysqld.sock
+	host=localhost
+	datadir=/var/lib/mysql
+	
+	
+	[Backup]
+	backupdir=/var/lib/tokubackupdir
+	
+	[Copy]
+	# The following copy_file_x options allow you to copy various files together with your backup
+	# Highly recommended; a copy of your my.cnf file (usually /etc/my.cnf) and any cnf files referenced from it (i.e. includedir etc.)
+	# You can also include other files you would like to take a copy of, like for example a text report or the mysqld error log
+	# copy_file_1=
+	# copy_file_2=
+	# copy_file_...=
+	# copy_file_10=
+	
+	#copy_file_1=/etc/my.cnf
+	#copy_file_2=/var/log/messages
+	#copy_file_3=
+	#copy_file_4=
+	#copy_file_5=
+	#copy_file_6=
+	#copy_file_7=
+	#copy_file_8=
+	#copy_file_9=
+	#copy_file_10=
+
 
 General Usage:
------
-        1. Clone repository to local directory. 
-        2. Install using setup script.
+-------------
+        1. Install using mentioned methods. 
         3. Edit /etc/tokubackup.conf file to reflect your settings and start to use.
         
 
 Sample Output:
-----------
+-------------
 
     tokubackup --help
     Usage: tokubackup [OPTIONS]
@@ -94,7 +135,8 @@ Sample Output:
 Supplementary Files
 -------------------
 
-The original MySQL configuration file as well as the MySQL Global and Session variable values will be stored in backup directory:
+The MySQL Global and Session variable values will be stored in backup directory. 
+If you specify some files to copy in configuration file, they will be stored inside 'copied_files' directory.
 
     # ls -l 2017-02-09_20-25-40/
     
