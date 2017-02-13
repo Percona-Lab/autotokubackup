@@ -3,12 +3,12 @@ from setuptools import setup
 datafiles = [('/etc', ['general_conf/tokubackup.conf'])]
 
 setup(
-    name='percona-autotokubackup',
+    name='autotokubackup',
     version='1.1',
     packages=['general_conf', 'backup'],
     py_modules=['tokubackup'],
-    url='https://github.com/Percona-Lab/percona-autotokubackup',
-    download_url='https://github.com/Percona-Lab/percona-autotokubackup/archive/v1.1.tar.gz',
+    url='https://github.com/Percona-Lab/autotokubackup',
+    download_url='https://github.com/Percona-Lab/autotokubackup/archive/v1.1.tar.gz',
     license='GPL',
     author='Shahriyar Rzayev',
     author_email='shahriyar.rzayev@percona.com',
