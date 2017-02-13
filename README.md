@@ -104,10 +104,10 @@ Sample Output:
       
     # tokubackup --version
     Developed by Shahriyar Rzayev from Percona
-    Link : https://github.com/Percona-Lab/percona-autotokubackup
+    Link : https://github.com/Percona-Lab/autotokubackup
     Email: shahriyar.rzayev@percona.com
     Based on Percona TokuBackup: https://www.percona.com/doc/percona-server/5.6/tokudb/toku_backup.html
-    MySQL-AutoTokuBackup Version 1.1
+    AutoTokuBackup Version 1.1
 
     
     
