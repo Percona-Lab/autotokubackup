@@ -1,8 +1,8 @@
 
-Percona-AutoTokuBackup
+AutoTokuBackup
 ====================
 
-Percona AutoTokuBackup commandline tool written in Python 3.
+AutoTokuBackup commandline tool written in Python 3.
 You can use this script to automate the usage of Percona TokuBackup.
 Also you can optionally specify which files to copy during backup process.
 
