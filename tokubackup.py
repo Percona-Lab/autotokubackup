@@ -13,7 +13,7 @@ def print_version(ctx, param, value):
     click.echo("Email: shahriyar.rzayev@percona.com")
     click.echo(
         "Based on Percona TokuBackup: https://www.percona.com/doc/percona-server/5.6/tokudb/toku_backup.html")
-    click.echo('AutoTokuBackup Version 1.1')
+    click.echo('AutoTokuBackup Version 1.2')
     ctx.exit()
 
 

@@ -4,11 +4,11 @@ datafiles = [('/etc', ['general_conf/tokubackup.conf'])]
 
 setup(
     name='autotokubackup',
-    version='1.1',
+    version='1.2',
     packages=['general_conf', 'backup'],
     py_modules=['tokubackup'],
     url='https://github.com/Percona-Lab/autotokubackup',
-    download_url='https://github.com/Percona-Lab/autotokubackup/archive/v1.1.tar.gz',
+    download_url='https://github.com/Percona-Lab/autotokubackup/archive/v1.2.tar.gz',
     license='GPL',
     author='Shahriyar Rzayev',
     author_email='shahriyar.rzayev@percona.com',
