@@ -21,13 +21,13 @@ Installing
     From source:
     
     cd /home
-    git clone https://github.com/Percona-Lab/percona-autotokubackup.git
-    cd percona-autotokubackup
+    git clone https://github.com/Percona-Lab/autotokubackup.git
+    cd autotokubackup
     python3 setup.py install
     
     Via pip3:
     
-    pip3 install percona-autotokubackup
+    pip3 install autotokubackup
     
     > Python package dependencies will be installed automatically.
     
