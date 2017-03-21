@@ -29,6 +29,16 @@ class GeneralClass(object):
             self.backupdir = BCK['backupdir']
 
             ######################################################
+            STRESS = con['Stress']
+            if 'stress' in STRESS:
+                self.stress = STRESS['stress']
+            if 'tb_thread' in STRESS:
+                self.tb_thread = STRESS['tb_thread']
+            if 'sysbench_options' in STRESS:
+                self.sysbench_options = STRESS['sysbench_options']
+            if 'sysbench_db' in STRESS:
+                self.sysbench_db = STRESS['sysbench_db']
+            ######################################################
             self.to_be_copied = []
             CP = con['Copy']
             for i in range(1, 11):
