@@ -1,0 +1,1 @@
+all = ["backup", "general_conf", "test"]
